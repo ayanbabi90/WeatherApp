@@ -17,12 +17,12 @@ struct LottieView: UIViewRepresentable {
     
     var lottieFile: LottieFiles
     var loopMode: LottieLoopMode = .playOnce
-    var animationView = LottieAnimationView()
+    var animationView = AnimationView()
     
     func makeUIView(context: UIViewRepresentableContext<LottieView>) -> UIView {
         let view = UIView()
         
-        animationView.animation = LottieAnimation.named(lottieFile.rawValue)
+        animationView.animation = Animation.named(lottieFile.rawValue)
         animationView.contentMode = .scaleAspectFill
         animationView.loopMode = loopMode
         
