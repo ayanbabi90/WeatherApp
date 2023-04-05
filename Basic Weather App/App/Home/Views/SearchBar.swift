@@ -21,7 +21,7 @@ struct SearchBar: View {
             }) {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(isEditing ? .blue : .secondary)
-            }
+            }.accessibilityIdentifier("searchButton")
            
             TextField("Search for a city", text: $searchText, onEditingChanged: { editing in
                 isEditing = editing
@@ -30,6 +30,8 @@ struct SearchBar: View {
             .autocapitalization(.none)
             .disableAutocorrection(true)
             .foregroundColor(.primary)
+            .accessibilityIdentifier("searchTextField")
+            
             Button(action: {
                 withAnimation(.linear(duration: 0.3)) {
                     searchText = ""
@@ -38,7 +40,7 @@ struct SearchBar: View {
             }) {
                 Text("Cancel")
                     .foregroundColor(.primary)
-            }
+            }.accessibilityIdentifier("CancelButton")
         }
         .padding()
         .background(Color(.systemBackground))

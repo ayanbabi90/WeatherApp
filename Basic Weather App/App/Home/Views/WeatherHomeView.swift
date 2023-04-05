@@ -57,7 +57,8 @@ struct WeatherHomeView: View {
                         }) {
                             Image(systemName: "magnifyingglass.circle.fill")
                                 .font(.system(size: 34))
-                        }.padding(.trailing, 5)
+                        }.padding(.trailing, 5).accessibilityIdentifier("searchButtonHome")
+                        
                         NavigationLink(destination: SettingsView()) {
                             Image(systemName: "gear")
                                 .font(.title)

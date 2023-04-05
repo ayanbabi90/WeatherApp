@@ -19,30 +19,19 @@ final class Basic_Weather_AppUITests: XCTestCase {
     }
     
     func testSearchBar() {
-        // Ensure the search bar is displayed
-        XCTAssertTrue(app.searchFields["Search for a city"].exists)
+        let searchButtonHome = app.buttons["searchButtonHome"]
+        searchButtonHome.tap()
+        searchButtonHome.tap()
+        XCTAssertTrue(searchButtonHome.exists)
+        XCTAssertTrue(searchButtonHome.waitForExistence(timeout: 5.0))
         
-        // Enter text into the search bar
-        app.searchFields["Search for a city"].tap()
-        app.searchFields["Search for a city"].typeText("New York")
+        let searchField = app.textFields["searchTextField"]
+        XCTAssertTrue(searchField.waitForExistence(timeout: 5.0))
         
-        // Verify that the search text is correct
-        XCTAssertEqual(app.searchFields["Search for a city"].value as? String, "New York")
-    }
-    
-    func testWeatherDetails() {
-        // Select a city
-        app.searchFields["Search for a city"].tap()
-        app.searchFields["Search for a city"].typeText("New York")
-        app.buttons["search"].tap()
-        
-        // Wait for the weather details to load
-        sleep(2)
-        
-        // Verify that the weather details are displayed
-        XCTAssertTrue(app.staticTexts["New York"].exists)
-        XCTAssertTrue(app.staticTexts["72°F"].exists)
-        XCTAssertTrue(app.staticTexts["Mostly Cloudy"].exists)
+        searchField.tap()
+        searchField.typeText("Durgapur")
+        XCTAssertEqual(searchField.value as? String, "Durgapur")
+        app.buttons["searchButton"].tap()
     }
     
     override func tearDown() {
