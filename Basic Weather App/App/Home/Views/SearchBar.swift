@@ -10,7 +10,8 @@ import SwiftUI
 struct SearchBar: View {
     @Binding var isSearching: Bool
     @Binding var searchText: String
-    
+    @State private var isEditing = false
+
     var body: some View {
         HStack {
             Button(action: {
@@ -19,14 +20,16 @@ struct SearchBar: View {
                 }
             }) {
                 Image(systemName: "magnifyingglass")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(isEditing ? .blue : .secondary)
             }
            
-            TextField("Search for a city", text: $searchText)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .foregroundColor(.primary)
+            TextField("Search for a city", text: $searchText, onEditingChanged: { editing in
+                isEditing = editing
+            })
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .autocapitalization(.none)
+            .disableAutocorrection(true)
+            .foregroundColor(.primary)
             Button(action: {
                 withAnimation(.linear(duration: 0.3)) {
                     searchText = ""

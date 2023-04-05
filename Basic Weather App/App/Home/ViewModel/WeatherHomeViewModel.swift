@@ -22,6 +22,7 @@ class WeatherHomeViewModel: NSObject, ObservableObject {
     }
     @Published var currentCity: String = "Loading"
     @Published var weatherIcon: UIImage?
+    @Published var isNight: Bool = true
     
     // Location manager to get the user's location
     let locationManager = CLLocationManager()
@@ -70,6 +71,13 @@ class WeatherHomeViewModel: NSObject, ObservableObject {
             DispatchQueue.main.async {
                 self.weatherData = weatherData
                 self.currentCity = weatherData.name ?? "Unknown"
+                if let icon = weatherData.weather?.first?.icon {
+                    if icon.contains("n") {
+                        self.isNight = true
+                    } else {
+                        self.isNight = false
+                    }
+                }
             }
         } catch {
             print(error.localizedDescription)

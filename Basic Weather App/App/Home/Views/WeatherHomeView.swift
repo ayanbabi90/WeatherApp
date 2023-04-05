@@ -12,12 +12,10 @@ struct WeatherHomeView: View {
     @State private var searchText = ""
     @State private var isSearching = false
     @State private var currentCity = ""
-    @State private var isNightView: Bool = false
+    @State private var isNightView: Bool = true
     @State private var isCelsius: Bool = true
     @State private var isRaining = false
     
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    @Environment(\.verticalSizeClass) var verticalSizeClass
     @ObservedObject var viewModel: WeatherHomeViewModel
     
     init() {
@@ -115,9 +113,7 @@ struct WeatherHomeView: View {
                     }
                     .padding(.horizontal)
                     .padding(.bottom, 10)
-                }.foregroundColor(.white).onAppear{
-                    self.isNightView = viewModel.isNight()
-                }.onChange(of: isSearching) { isSearching in
+                }.foregroundColor(.white).onChange(of: isSearching) { isSearching in
                     if !isSearching && !self.$searchText.wrappedValue.isEmpty {
                         Task.detached {
                             await viewModel.fetchWeatherData(for: self.$searchText.wrappedValue)
@@ -125,6 +121,8 @@ struct WeatherHomeView: View {
                     }
                 }.onChange(of: viewModel.weatherData) { newData in
                     isRaining = viewModel.isRaining()
+                }.onChange(of: viewModel.isNight) { isNight in
+                    self.isNightView = isNight
                 }
             }
             
