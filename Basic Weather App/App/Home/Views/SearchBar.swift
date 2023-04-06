@@ -25,11 +25,14 @@ struct SearchBar: View {
            
             TextField("Search for a city", text: $searchText, onEditingChanged: { editing in
                 isEditing = editing
-            })
+            }){
+                isSearching = false
+            }
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .autocapitalization(.none)
             .disableAutocorrection(true)
             .foregroundColor(.primary)
+            .keyboardType(.webSearch)
             .accessibilityIdentifier("searchTextField")
             
             Button(action: {

@@ -13,7 +13,7 @@ import UIKit
 
 class WeatherHomeViewModel: NSObject, ObservableObject {
     // Published properties that can be observed by the views
-    @Published var error: Error?
+    @Published var error: String?
     @Published var weatherData: WeatherData? {
         didSet {
             // Fetch the weather icon when the weatherData is set
@@ -58,6 +58,9 @@ class WeatherHomeViewModel: NSObject, ObservableObject {
                           state: String? = nil,
                           countryCode: String? = nil) async {
         do {
+            DispatchQueue.main.async { [weak self] in
+                self?.error = nil
+            }
             // Store the searched city in user defaults
             UserDefaults.standard.set(city, forKey: "kLastSearchedCityKey")
             // Get the latitude and longitude of the searched location
@@ -81,6 +84,9 @@ class WeatherHomeViewModel: NSObject, ObservableObject {
             }
         } catch {
             print(error.localizedDescription)
+            DispatchQueue.main.async { [weak self] in
+                self?.error = error.localizedDescription
+            }
         }
     }
     
@@ -107,6 +113,9 @@ class WeatherHomeViewModel: NSObject, ObservableObject {
             let coordinate = location.coordinate
             return (coordinate.latitude, coordinate.longitude)
         } catch {
+            DispatchQueue.main.async { [weak self] in
+                self?.error = error.localizedDescription
+            }
             throw error
         }
     }

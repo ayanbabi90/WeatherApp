@@ -15,6 +15,7 @@ struct WeatherHomeView: View {
     @State private var isNightView: Bool = true
     @State private var isCelsius: Bool = true
     @State private var isRaining = false
+    @State private var showError = false
     
     @ObservedObject var viewModel: WeatherHomeViewModel
     
@@ -124,6 +125,18 @@ struct WeatherHomeView: View {
                     isRaining = viewModel.isRaining()
                 }.onChange(of: viewModel.isNight) { isNight in
                     self.isNightView = isNight
+                }.onChange(of: viewModel.error) { error in
+                    if let error = error, !error.isEmpty {
+                        self.showError = true
+                    }
+                }.alert(isPresented: $showError) {
+                    Alert(title: Text("Error"),
+                          message: Text("\(viewModel.error.unsafelyUnwrapped)"),
+                          dismissButton: .default(Text("OK")) {
+                        // Add dismiss button action here
+                        self.showError = false
+                        print("Alert dismissed")
+                    })
                 }
             }
             
